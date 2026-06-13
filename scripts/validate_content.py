@@ -4,7 +4,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "app/src/main/java/com/sumberilmu/app/data"
-NAMES = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five"}
+NAMES = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six"}
 
 
 def fail(message: str) -> None:
@@ -57,6 +57,7 @@ def main() -> None:
         3: ("CuratedChapterThree.kt", "sourcePageEnd = 104"),
         4: ("CuratedChapterFour.kt", "sourcePageEnd = 130"),
         5: ("ChapterFiveLessonsFoundation.kt", "sourcePageEnd = 162"),
+        6: ("CuratedChapterSix.kt", "sourcePageEnd = 190"),
     }
     for number, (filename, end_marker) in chapter_files.items():
         markers(DATA / filename, [f'id = "bab-{number}"', end_marker, f"quiz = Chapter{NAMES[number]}Quiz.questions"])
@@ -68,6 +69,7 @@ def main() -> None:
     repository = DATA / "ContentRepository.kt"
     markers(repository, [
         "CuratedChapterFive.chapter.id -> CuratedChapterFive.chapter",
+        "CuratedChapterSix.chapter.id -> CuratedChapterSix.chapter",
         "rumus 4 × sisi hanya berlaku jika keempat sisi sama panjang",
         "auditedChapterFour()",
     ])
@@ -82,7 +84,34 @@ def main() -> None:
         if value not in bab5:
             fail(f"Bab 5 verification marker missing: {value}")
 
-    print("Content valid: 9 chapters, curated Bab 1-5, 125 verified quiz records, pass score 75.")
+    bab6 = "\n".join(p.read_text(encoding="utf-8") for p in DATA.glob("ChapterSixQuiz*.kt"))
+    for value in ['"30°"', '"120°"', '"180°"', '"235°"', '"36°"']:
+        if value not in bab6:
+            fail(f"Bab 6 verification marker missing: {value}")
+
+    chapter_six = (DATA / "CuratedChapterSix.kt").read_text(encoding="utf-8")
+    for value in [
+        'title = "Mengenal Jenis-Jenis Sudut"',
+        'title = "Mengukur Sudut dengan Busur Derajat"',
+        'title = "Sudut dalam Persimpangan dan Pola Keramik"',
+    ]:
+        if value not in chapter_six:
+            fail(f"Bab 6 lesson marker missing: {value}")
+
+    ui = ROOT / "app/src/main/java/com/sumberilmu/app/ui"
+    markers(ui / "AngleLearningVisual.kt", [
+        "fun AngleLearningShowcase",
+        "Canvas(",
+        "selectedDegree",
+        "Sudut refleks",
+        "contentDescription = \"Visual sudut",
+    ])
+    markers(ui / "SumberIlmuApp.kt", [
+        "if (chapter.number == 6)",
+        "AngleEnhancedChapterScreen(",
+    ])
+
+    print("Content valid: 9 chapters, curated Bab 1-6, 150 verified quiz records, pass score 75, angle visual enabled.")
 
 
 if __name__ == "__main__":
