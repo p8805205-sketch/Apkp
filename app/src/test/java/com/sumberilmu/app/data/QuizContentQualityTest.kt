@@ -31,6 +31,32 @@ class QuizContentQualityTest {
             "soal latihan ke-",
             "pertanyaan belum tersedia"
         )
+        val missingContextTokens = listOf(
+            "gambar berikut",
+            "gambar di samping",
+            "gambar di bawah",
+            "gambar di atas",
+            "pada gambar",
+            "berdasarkan gambar",
+            "diagram berikut",
+            "diagram di samping",
+            "diagram di bawah",
+            "diagram di atas",
+            "pada diagram",
+            "berdasarkan diagram",
+            "tabel berikut",
+            "tabel di samping",
+            "tabel di bawah",
+            "tabel di atas",
+            "pada tabel",
+            "berdasarkan tabel",
+            "piktogram berikut",
+            "pada piktogram",
+            "bangun berikut",
+            "bangun di samping",
+            "bangun di bawah",
+            "bangun di atas"
+        )
 
         assertEquals("Jumlah bab terkurasi harus 9", 9, chapters.size)
         assertEquals("Total soal terkurasi harus 225", 225, chapters.sumOf { it.quiz.size })
@@ -59,6 +85,15 @@ class QuizContentQualityTest {
                 }
                 if (placeholderTokens.any { it in normalizedPrompt }) {
                     issues += "$label: mengandung placeholder: '$prompt'"
+                }
+                val missingContext = missingContextTokens.firstOrNull { it in normalizedPrompt }
+                if (missingContext != null) {
+                    issues += "$label: merujuk konteks visual '$missingContext' yang tidak tersedia pada model Question: '$prompt'"
+                }
+                if (Regex("\\b(gambar|diagram|tabel|bangun)\\s+[A-Z0-9]\\b", RegexOption.IGNORE_CASE)
+                        .containsMatchIn(prompt)
+                ) {
+                    issues += "$label: merujuk label visual tanpa media pendamping: '$prompt'"
                 }
                 if (question.options.size != 4) {
                     issues += "$label: opsi berjumlah ${question.options.size}, seharusnya 4"
@@ -92,6 +127,19 @@ class QuizContentQualityTest {
             }
         }
 
+        val catalog = buildString {
+            appendLine("===== FULL QUIZ CATALOG =====")
+            chapters.forEach { chapter ->
+                appendLine("## ${chapter.id} | ${chapter.title}")
+                chapter.quiz.forEachIndexed { index, question ->
+                    appendLine("${index + 1}. [${question.id}] p.${question.sourcePage} ${question.prompt.replace("\n", " ")}")
+                    appendLine("   Opsi: ${question.options.joinToString(" | ") { it.text }}")
+                    appendLine("   Jawaban: ${question.options[question.correctIndex].text}")
+                    appendLine("   Pembahasan: ${question.explanation}")
+                }
+            }
+            appendLine("===== END FULL QUIZ CATALOG =====")
+        }
         val report = buildString {
             appendLine()
             appendLine("===== QUIZ CONTENT QUALITY AUDIT =====")
@@ -99,6 +147,7 @@ class QuizContentQualityTest {
             appendLine("Total masalah: ${issues.size}")
             appendLine(issues.joinToString("\n"))
             appendLine("===== END QUIZ CONTENT QUALITY AUDIT =====")
+            appendLine(catalog)
         }
         val workspace = System.getenv("GITHUB_WORKSPACE") ?: System.getProperty("user.dir")
         File(workspace, "lint-debug.log").appendText(report)
