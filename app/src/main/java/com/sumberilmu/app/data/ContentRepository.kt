@@ -6,7 +6,7 @@ class ContentRepository(@Suppress("UNUSED_PARAMETER") context: Context) {
     fun loadCatalog(): LearningCatalog {
         val base = GeneratedContent.catalog
         val chapters = base.chapters.map { chapter ->
-            when (chapter.id) {
+            val curatedChapter = when (chapter.id) {
                 CuratedChapterOne.chapter.id -> CuratedChapterOne.chapter
                 CuratedChapterTwo.chapter.id -> CuratedChapterTwo.chapter
                 CuratedChapterThree.chapter.id -> CuratedChapterThree.chapter
@@ -18,6 +18,7 @@ class ContentRepository(@Suppress("UNUSED_PARAMETER") context: Context) {
                 CuratedChapterNine.chapter.id -> CuratedChapterNine.chapter
                 else -> chapter
             }
+            QuizContentFormatter.formatChapter(curatedChapter)
         }
         return base.copy(chapters = chapters)
     }
