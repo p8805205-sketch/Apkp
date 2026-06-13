@@ -99,7 +99,8 @@ class QuizContentQualityTest {
             appendLine(issues.joinToString("\n"))
             appendLine("===== END QUIZ CONTENT QUALITY AUDIT =====")
         }
-        File("lint-debug.log").appendText(report)
+        val workspace = System.getenv("GITHUB_WORKSPACE") ?: System.getProperty("user.dir")
+        File(workspace, "lint-debug.log").appendText(report)
 
         assertTrue(
             "Ditemukan ${issues.size} masalah kualitas quiz:\n${issues.joinToString("\n")}",
