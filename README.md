@@ -5,8 +5,7 @@ Aplikasi Android pembelajaran multi-jenjang. Vertical slice pertama berisi **Mat
 ## Fitur saat ini
 
 - Katalog SD → Kelas 5 → Matematika → Semester 1.
-- Sembilan bab dan seluruh subbab utama.
-- Bab 1–8 sudah dikurasi:
+- Seluruh sembilan bab dan subbab utama sudah dikurasi dari PDF sumber:
   - Bilangan Cacah sampai 100.000.
   - KPK dan FPB.
   - Bilangan Pecahan.
@@ -15,8 +14,8 @@ Aplikasi Android pembelajaran multi-jenjang. Vertical slice pertama berisi **Mat
   - Sudut.
   - Membandingkan Ciri-Ciri Bangun Datar.
   - Data.
-- Total 200 soal terkurasi dengan empat opsi, jawaban benar, penjelasan, tingkat kesulitan, dan halaman sumber.
-- Bab 9 tetap tersedia melalui konten awal sambil menunggu kurasi.
+  - Bilangan Cacah Sampai 1.000.000.
+- Total 225 soal terkurasi dengan empat opsi, jawaban benar, penjelasan, tingkat kesulitan, dan halaman sumber.
 - Tujuan pembelajaran, kata kunci, ringkasan, contoh soal, dan langkah pembahasan.
 - Nilai kelulusan 75.
 - Umpan balik langsung ketika jawaban benar atau salah.
@@ -27,6 +26,7 @@ Aplikasi Android pembelajaran multi-jenjang. Vertical slice pertama berisi **Mat
 - Laboratorium Sudut berbasis Compose Canvas pada Bab 6.
 - Laboratorium Pembanding Bangun Datar berbasis Compose Canvas pada Bab 7.
 - Laboratorium Data dengan tabel, piktogram, batang vertikal, batang horizontal, dan batang ganda pada Bab 8.
+- Laboratorium Nilai Tempat dengan pengubah digit, pembacaan bilangan Indonesia, dekomposisi, perbandingan, dan pengurutan pada Bab 9.
 - GitHub Actions untuk validasi, lint, unit test, build APK debug, diagnostik lint, dan upload artifact.
 
 ## Kontrak arsitektur konten
@@ -73,7 +73,7 @@ app/build/outputs/apk/debug/app-debug.apk
 python scripts/validate_content.py
 ```
 
-Validator memeriksa identitas aplikasi, sembilan definisi bab, nilai lulus, struktur Bab 1–8, urutan ID soal 1–25, 25 set opsi per bab, audit sumber Bab 7, angka dan hasil Bab 8, serta koneksi laboratorium visual Bab 6–8.
+Validator memeriksa identitas aplikasi, seluruh sembilan bab, nilai lulus, urutan ID soal 1–25, 25 set opsi per bab, audit sumber Bab 7 dan Bab 9, hasil numerik Bab 8–9, formatter bilangan 0–1.000.000, serta koneksi laboratorium visual Bab 6–9.
 
 ## GitHub Actions
 
@@ -98,8 +98,10 @@ app/src/main/java/com/sumberilmu/app/
 │   ├── CuratedChapterSix.kt
 │   ├── CuratedChapterSeven.kt
 │   ├── CuratedChapterEight.kt
+│   ├── CuratedChapterNine.kt
 │   ├── Chapter*Quiz*.kt
 │   ├── CuratedQuestionFactory.kt
+│   ├── IndonesianNumberFormatter.kt
 │   ├── GeneratedContent.kt
 │   ├── Models.kt
 │   └── ProgressRepository.kt
@@ -108,17 +110,16 @@ app/src/main/java/com/sumberilmu/app/
     ├── AngleLearningVisual.kt
     ├── ShapeComparisonVisual.kt
     ├── DataLearningVisual.kt
+    ├── PlaceValueLearningVisual.kt
     └── ...
 ```
 
 ## Tahap pengembangan berikutnya
 
-- Kurasi Bab 9 dari pipeline PDF.
-- Pindahkan konten terkurasi ke JSON per bab.
-- Tambahkan Room untuk cache dan progres terstruktur.
-- Tambahkan Supabase Auth, PostgreSQL, dan Storage.
+- Migrasikan konten terkurasi dari objek Kotlin ke JSON per bab dengan schema versioning.
+- Tambahkan Room untuk cache materi dan progres terstruktur.
+- Tambahkan Supabase Auth, PostgreSQL, Storage, dan Row Level Security.
 - Sinkronisasi progres lintas perangkat.
-- Dashboard admin web.
-- Upload PDF dengan status draft, review, dan published.
-- Quiz gabungan beberapa bab.
-- Dukungan mata pelajaran dan jenjang tambahan.
+- Bangun dashboard admin web untuk upload PDF, review konten, dan publikasi.
+- Tambahkan quiz gabungan beberapa bab dan asesmen semester.
+- Tambahkan dukungan mata pelajaran, kelas, dan jenjang lain.
