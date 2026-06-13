@@ -2,18 +2,18 @@
 
 Aplikasi Android pembelajaran multi-jenjang. Vertical slice pertama berisi **Matematika SD Kelas 5 Kurikulum Merdeka** berdasarkan buku siswa tahun 2022.
 
-## Fitur yang sudah tersedia
+## Fitur awal
 
 - Katalog SD → Kelas 5 → Matematika → Semester 1.
 - Sembilan bab dan seluruh subbab utama.
-- Tujuan pembelajaran, kata kunci, ringkasan, pembahasan, dan contoh soal.
-- Quiz 25 soal untuk setiap bab, total 225 soal.
+- Tujuan pembelajaran, kata kunci, ringkasan, contoh soal, dan langkah pembahasan.
+- Quiz 25 soal per bab, total 225 soal yang dibentuk dari bank generator offline.
 - Nilai kelulusan 75.
-- Umpan balik langsung untuk jawaban salah.
-- Halaman hasil dan pembahasan seluruh jawaban.
+- Umpan balik ketika jawaban benar atau salah.
+- Halaman skor dan pembahasan seluruh jawaban.
 - Progres materi, nilai terakhir, nilai terbaik, percobaan, dan badge.
 - Penyimpanan progres lokal.
-- GitHub Actions untuk validasi, lint, test, APK debug, APK/AAB release.
+- GitHub Actions untuk validasi, lint, unit test, build APK debug, dan upload artifact.
 
 ## Teknologi
 
@@ -26,14 +26,7 @@ Aplikasi Android pembelajaran multi-jenjang. Vertical slice pertama berisi **Mat
 
 ## Menjalankan secara lokal
 
-### Android Studio
-
-1. Buka folder repository.
-2. Gunakan JDK 17.
-3. Tunggu Gradle sync.
-4. Jalankan konfigurasi `app`.
-
-### Command line
+Gunakan Android Studio dengan JDK 17, lalu jalankan konfigurasi `app`.
 
 Linux/macOS:
 
@@ -48,9 +41,7 @@ Windows:
 gradlew.bat assembleDebug
 ```
 
-Script bootstrap akan mengunduh Gradle 8.13 pada penggunaan pertama.
-
-APK debug:
+APK debug tersedia di:
 
 ```text
 app/build/outputs/apk/debug/app-debug.apk
@@ -62,65 +53,37 @@ app/build/outputs/apk/debug/app-debug.apk
 python scripts/validate_content.py
 ```
 
-Validator memastikan:
-
-- sembilan bab tersedia;
-- setiap bab memiliki 25 soal;
-- seluruh ID unik;
-- setiap soal memiliki empat pilihan;
-- indeks jawaban benar valid;
-- penjelasan jawaban tersedia.
+Validator memastikan identitas aplikasi, sembilan definisi bab, 25 soal per bab, dan batas nilai 75 tersedia pada katalog offline.
 
 ## GitHub Actions
 
-### Android CI
-
-Berjalan pada push dan pull request:
+Workflow `Android CI` berjalan pada branch utama, branch fitur, dan pull request:
 
 ```text
 Validasi konten → Lint → Unit test → Build APK debug → Upload artifact
 ```
 
-### Android Release
-
-Berjalan ketika tag `v*` dibuat. Tambahkan secrets:
-
-```text
-ANDROID_KEYSTORE_BASE64
-ANDROID_KEYSTORE_PASSWORD
-ANDROID_KEY_ALIAS
-ANDROID_KEY_PASSWORD
-```
-
-Contoh rilis:
-
-```bash
-git tag v0.1.0
-git push origin v0.1.0
-```
-
-Workflow menghasilkan APK dan AAB bertanda tangan lalu membuat GitHub Release.
-
 ## Struktur utama
 
 ```text
-app/src/main/
-├── assets/content.json
-├── java/com/sumberilmu/app/
-│   ├── AppViewModel.kt
-│   ├── MainActivity.kt
-│   ├── data/
-│   ├── domain/
-│   └── ui/
-└── res/
+app/src/main/java/com/sumberilmu/app/
+├── AppViewModel.kt
+├── MainActivity.kt
+├── data/
+│   ├── GeneratedContent.kt
+│   ├── Models.kt
+│   └── ProgressRepository.kt
+├── domain/
+└── ui/
 ```
 
 ## Tahap pengembangan berikutnya
 
-- Room untuk cache dan progres terstruktur.
-- Supabase Auth, PostgreSQL, dan Storage.
+- Ganti konten generator dengan data terkurasi per soal dari pipeline PDF.
+- Tambahkan Room untuk cache dan progres terstruktur.
+- Tambahkan Supabase Auth, PostgreSQL, dan Storage.
 - Sinkronisasi progres lintas perangkat.
 - Dashboard admin web.
-- Upload PDF dan status draft/review/published.
+- Upload PDF dengan status draft, review, dan published.
 - Quiz gabungan beberapa bab.
 - Dukungan mata pelajaran dan jenjang tambahan.
