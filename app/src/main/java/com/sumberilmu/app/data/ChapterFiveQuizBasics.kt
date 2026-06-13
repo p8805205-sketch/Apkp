@@ -9,7 +9,7 @@ object ChapterFiveQuizBasics {
         q(5, "Persegi panjang berukuran 8 cm × 5 cm memiliki luas ...", listOf("13 cm²", "26 cm²", "40 cm²", "80 cm²"), "40 cm²", "Luas persegi panjang = 8 × 5 = 40 cm².", "mudah", 145),
         q(6, "Persegi dengan panjang sisi 9 cm memiliki luas ...", listOf("18 cm²", "36 cm²", "72 cm²", "81 cm²"), "81 cm²", "Luas persegi = 9 × 9 = 81 cm².", "mudah", 146),
         q(7, "Luas persegi panjang 72 cm² dan panjangnya 9 cm. Lebarnya adalah ...", listOf("6 cm", "8 cm", "9 cm", "12 cm"), "8 cm", "Lebar = 72 ÷ 9 = 8 cm.", "sedang", 145),
-        q(8, "Luas sebuah persegi 64 cm². Panjang sisinya adalah ...", listOf("4 cm", "8 cm", "16 cm", "32 cm"), "8 cm", "8 × 8 = 64.", "sedang", 146),
+        q(8, "Luas sebuah persegi 64 cm². Panjang sisinya adalah ...", listOf("4 cm", "8 cm", "16 cm", "32 cm"), "8 cm", "Luas persegi dihitung dengan sisi × sisi. Karena 8 × 8 = 64, panjang sisinya adalah 8 cm.", "sedang", 146),
         q(9, "Segitiga mempunyai alas 12 cm dan tinggi 7 cm. Luasnya ...", listOf("42 cm²", "84 cm²", "19 cm²", "38 cm²"), "42 cm²", "Luas = 1/2 × 12 × 7 = 42 cm².", "mudah", 150),
         q(10, "Luas segitiga 54 cm² dan panjang alasnya 12 cm. Tingginya ...", listOf("4,5 cm", "8 cm", "9 cm", "12 cm"), "9 cm", "54 = 6 × tinggi, sehingga tinggi 9 cm.", "menantang", 150),
         q(11, "Jajargenjang mempunyai alas 14 cm dan tinggi 6 cm. Luasnya ...", listOf("40 cm²", "42 cm²", "84 cm²", "168 cm²"), "84 cm²", "Luas jajargenjang = 14 × 6 = 84 cm².", "mudah", 152),
