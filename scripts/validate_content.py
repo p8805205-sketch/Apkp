@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "app" / "src" / "main" / "java" / "com" / "sumberilmu" / "app" / "data"
 GENERATED = DATA_DIR / "GeneratedContent.kt"
-CHAPTER_NAMES = {1: "One", 2: "Two", 3: "Three"}
+CHAPTER_NAMES = {1: "One", 2: "Two", 3: "Three", 4: "Four"}
 
 
 def fail(message: str) -> None:
@@ -22,15 +22,32 @@ def validate_quiz(chapter_number: int) -> None:
     chapter_name = CHAPTER_NAMES[chapter_number]
     path = DATA_DIR / f"Chapter{chapter_name}Quiz.kt"
     text = path.read_text(encoding="utf-8")
-    question_ids = [int(value) for value in re.findall(r"id = (\d+),", text)]
+
+    if chapter_number == 4:
+        question_ids = [int(value) for value in re.findall(r"\bq\((\d+),", text)]
+        if text.count("listOf(") != 26:
+            fail("Bab 4 must contain one question list and 25 option lists")
+        require_markers(
+            text,
+            [
+                'q(19,',
+                '"40 cm", "Keliling kedua bangun adalah 32 + 16 = 48 cm.',
+                'id = "bab-4-soal-$id"',
+                'require(options.toSet().size == 4)',
+            ],
+            path.name,
+        )
+    else:
+        question_ids = [int(value) for value in re.findall(r"id = (\d+),", text)]
+        if text.count("sourcePage = ") != 26:
+            fail(f"Bab {chapter_number} must contain 25 source pages plus one helper assignment")
+        if text.count("options = listOf(") != 25:
+            fail(f"Bab {chapter_number} must contain 25 option lists")
+        if text.count("difficulty = ") != 26:
+            fail(f"Bab {chapter_number} must contain difficulty metadata for every question")
+
     if question_ids != list(range(1, 26)):
         fail(f"Bab {chapter_number} quiz IDs must be 1..25, found {question_ids}")
-    if text.count("sourcePage = ") != 26:
-        fail(f"Bab {chapter_number} must contain 25 source pages plus one helper assignment")
-    if text.count("options = listOf(") != 25:
-        fail(f"Bab {chapter_number} must contain 25 option lists")
-    if text.count("difficulty = ") != 26:
-        fail(f"Bab {chapter_number} must contain difficulty metadata for every question")
 
 
 def main() -> None:
@@ -67,6 +84,13 @@ def main() -> None:
             'title = "Membandingkan dan Mengurutkan Pecahan"',
             'title = "Pengurangan Pecahan Berbeda Penyebut dan Pecahan Campuran"',
         ],
+        4: [
+            'sourcePageStart = 105',
+            'sourcePageEnd = 130',
+            'quiz = ChapterFourQuiz.questions',
+            'title = "Keliling Segi Banyak"',
+            'title = "Keliling Bangun Gabungan dan Pemecahan Masalah"',
+        ],
     }
 
     for chapter_number, markers in curated_requirements.items():
@@ -80,7 +104,7 @@ def main() -> None:
         )
         validate_quiz(chapter_number)
 
-    print("Content valid: 9 chapters, curated Bab 1-3, 75 verified quiz records, pass score 75.")
+    print("Content valid: 9 chapters, curated Bab 1-4, 100 verified quiz records, pass score 75.")
 
 
 if __name__ == "__main__":
