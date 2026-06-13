@@ -4,7 +4,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "app/src/main/java/com/sumberilmu/app/data"
-NAMES = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven"}
+NAMES = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven", 8: "Eight"}
 
 
 def fail(message: str) -> None:
@@ -59,6 +59,7 @@ def main() -> None:
         5: ("ChapterFiveLessonsFoundation.kt", "sourcePageEnd = 162"),
         6: ("CuratedChapterSix.kt", "sourcePageEnd = 190"),
         7: ("CuratedChapterSeven.kt", "sourcePageEnd = 234"),
+        8: ("CuratedChapterEight.kt", "sourcePageEnd = 272"),
     }
     for number, (filename, end_marker) in chapter_files.items():
         markers(DATA / filename, [f'id = "bab-{number}"', end_marker, f"quiz = Chapter{NAMES[number]}Quiz.questions"])
@@ -72,6 +73,7 @@ def main() -> None:
         "CuratedChapterFive.chapter.id -> CuratedChapterFive.chapter",
         "CuratedChapterSix.chapter.id -> CuratedChapterSix.chapter",
         "CuratedChapterSeven.chapter.id -> CuratedChapterSeven.chapter",
+        "CuratedChapterEight.chapter.id -> CuratedChapterEight.chapter",
         "rumus 4 × sisi hanya berlaku jika keempat sisi sama panjang",
         "auditedChapterFour()",
     ])
@@ -93,54 +95,72 @@ def main() -> None:
 
     bab7 = "\n".join(p.read_text(encoding="utf-8") for p in DATA.glob("ChapterSevenQuiz*.kt"))
     for value in [
-        '"Jumlah dua sisi terpendek lebih besar dari sisi terpanjang"',
-        '"180°"',
-        '"Saling tegak lurus dan saling membagi dua"',
+        '"5 + 1 lebih kecil dari 7"',
+        '"Mempunyai setidaknya dua sisi sama panjang"',
+        '"Jajargenjang dan layang-layang"',
+        '"Salah satu diagonalnya merupakan sumbu simetri"',
         '"Ya, karena mempunyai empat sudut siku-siku dan sisi berhadapan sejajar"',
-        '"Empat sudut siku-siku dan dua pasang sisi sejajar"',
     ]:
         if value not in bab7:
-            fail(f"Bab 7 verification marker missing: {value}")
+            fail(f"Bab 7 source-audit marker missing: {value}")
 
-    chapter_six = (DATA / "CuratedChapterSix.kt").read_text(encoding="utf-8")
-    for value in [
-        'title = "Mengenal Jenis-Jenis Sudut"',
-        'title = "Mengukur Sudut dengan Busur Derajat"',
-        'title = "Sudut dalam Persimpangan dan Pola Keramik"',
-    ]:
-        if value not in chapter_six:
-            fail(f"Bab 6 lesson marker missing: {value}")
+    markers(DATA / "ChapterSevenSourceAudit.kt", [
+        "val ujiKompetensi = listOf(",
+        "SourceAuditStatement(10",
+        "val expectedAnswers = listOf(false, false, true, true, false, true, true, false, false, true)",
+    ])
 
-    chapter_seven = (DATA / "CuratedChapterSeven.kt").read_text(encoding="utf-8")
+    bab8 = "\n".join(p.read_text(encoding="utf-8") for p in DATA.glob("ChapterEightQuiz*.kt"))
     for value in [
-        'title = "Syarat Terbentuknya Segitiga"',
-        'title = "Belah Ketupat dan Layang-Layang"',
-        'title = "Membandingkan, Mengelompokkan, dan Menemukan Hierarki"',
+        '"198 kue"',
+        '"Rp59.400,00"',
+        '"60 kg"',
+        '"24/89"',
+        '"122 kg"',
+        '"Rp2.684.000,00"',
+        '"Rp103.000 dan masih kurang Rp47.000"',
+        '"3,4 poin persentase"',
     ]:
-        if value not in chapter_seven:
-            fail(f"Bab 7 lesson marker missing: {value}")
+        if value not in bab8:
+            fail(f"Bab 8 verification marker missing: {value}")
+
+    chapter_eight = (DATA / "CuratedChapterEight.kt").read_text(encoding="utf-8")
+    for value in [
+        'title = "Mengumpulkan Data dengan Turus"',
+        'title = "Piktogram dan Simbol Parsial"',
+        'title = "Diagram Batang Vertikal"',
+        'title = "Diagram Batang Horizontal"',
+        'title = "Diagram Batang Ganda"',
+        'title = "Membaca, Menganalisis, dan Menguji Kesimpulan"',
+    ]:
+        if value not in chapter_eight:
+            fail(f"Bab 8 lesson marker missing: {value}")
 
     ui = ROOT / "app/src/main/java/com/sumberilmu/app/ui"
     markers(ui / "AngleLearningVisual.kt", [
-        "fun AngleLearningShowcase",
-        "Canvas(",
-        "selectedDegree",
-        "Sudut refleks",
-        "contentDescription = \"Visual sudut",
+        "fun AngleLearningShowcase", "Canvas(", "selectedDegree", "Sudut refleks",
     ])
     markers(ui / "ShapeComparisonVisual.kt", [
-        "fun ShapeComparisonShowcase",
+        "fun ShapeComparisonShowcase", "Canvas(", "LearningShape.entries", "Tabel perbandingan",
+    ])
+    markers(ui / "DataLearningVisual.kt", [
+        "fun DataLearningShowcase",
+        "DataViewMode.PICTOGRAM",
+        "DataViewMode.VERTICAL",
+        "DataViewMode.HORIZONTAL",
+        "DataViewMode.DOUBLE",
         "Canvas(",
-        "LearningShape.entries",
-        "Tabel perbandingan",
-        "contentDescription = \"Diagram",
+        "Laboratorium Data",
     ])
     markers(ui / "SumberIlmuApp.kt", [
         "6 -> AngleEnhancedChapterScreen(",
         "7 -> ShapeEnhancedChapterScreen(",
+        "8 -> DataEnhancedChapterScreen(",
     ])
 
-    print("Content valid: 9 chapters, curated Bab 1-7, 175 verified quiz records, pass score 75, angle and shape visuals enabled.")
+    markers(ROOT / "docs/academic-structure.md", ["# Struktur Akademik Sumber Ilmu"])
+
+    print("Content valid: 9 chapters, curated Bab 1-8, 200 verified quiz records, Bab 7 source audit, and three interactive laboratories enabled.")
 
 
 if __name__ == "__main__":
