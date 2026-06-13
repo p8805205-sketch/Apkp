@@ -12,6 +12,7 @@ class ContentRepository(@Suppress("UNUSED_PARAMETER") context: Context) {
                 CuratedChapterThree.chapter.id -> CuratedChapterThree.chapter
                 CuratedChapterFour.chapter.id -> auditedChapterFour()
                 CuratedChapterFive.chapter.id -> CuratedChapterFive.chapter
+                CuratedChapterSix.chapter.id -> CuratedChapterSix.chapter
                 else -> chapter
             }
         }
