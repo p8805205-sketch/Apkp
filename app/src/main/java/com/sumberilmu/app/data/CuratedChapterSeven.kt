@@ -14,20 +14,21 @@ object CuratedChapterSeven {
             "segitiga sama kaki",
             "segitiga sembarang",
             "segi empat",
+            "trapesium inklusif",
             "sisi sejajar",
             "diagonal",
             "simetri",
-            "persamaan",
-            "perbedaan"
+            "hierarki bangun"
         ),
         summary = listOf(
             "Tiga ruas garis dapat membentuk segitiga apabila jumlah panjang dua sisi mana pun lebih besar daripada sisi yang tersisa.",
-            "Segitiga dapat dikelompokkan berdasarkan sisi menjadi sama sisi, sama kaki, dan sembarang; berdasarkan sudut menjadi lancip, siku-siku, dan tumpul.",
-            "Jumlah ketiga sudut dalam setiap segitiga selalu 180°.",
-            "Segi empat dapat dibandingkan melalui panjang sisi, pasangan sisi sejajar, besar sudut, sifat diagonal, dan banyak sumbu simetri.",
-            "Persegi memiliki seluruh ciri persegi panjang dan belah ketupat, ditambah empat sisi sama panjang dan empat sudut siku-siku.",
-            "Satu bangun dapat menjadi anggota lebih dari satu kelompok jika memenuhi seluruh ciri kelompok tersebut.",
-            "Membandingkan bangun sebaiknya dilakukan dengan tabel ciri agar persamaan dan perbedaannya terlihat jelas."
+            "Segitiga sama kaki mempunyai setidaknya dua sisi sama panjang. Karena itu, segitiga sama sisi juga dapat digolongkan sebagai segitiga sama kaki.",
+            "Segitiga dapat dikelompokkan berdasarkan sudut menjadi lancip, siku-siku, dan tumpul; jumlah ketiga sudut dalam selalu 180°.",
+            "Buku menggunakan pengertian trapesium inklusif: segi empat dengan setidaknya satu pasang sisi sejajar.",
+            "Dengan pengertian tersebut, jajargenjang termasuk trapesium, tetapi bukan trapesium sama kaki karena tidak memiliki satu sumbu simetri dan sudut alasnya tidak sama besar.",
+            "Belah ketupat dapat digolongkan sebagai jajargenjang sekaligus layang-layang.",
+            "Persegi memiliki seluruh ciri persegi panjang dan belah ketupat, sehingga satu bangun dapat menjadi anggota beberapa kelompok sekaligus.",
+            "Membandingkan bangun dilakukan melalui sisi, sisi sejajar, sudut, diagonal, dan simetri."
         ),
         subchapters = listOf(
             Subchapter(
@@ -36,36 +37,36 @@ object CuratedChapterSeven {
                     "Tidak semua tiga ruas garis dapat membentuk segitiga.",
                     "Jumlah panjang dua sisi terpendek harus lebih besar daripada sisi terpanjang.",
                     "Syarat yang sama berlaku untuk setiap pasangan sisi: a + b > c, a + c > b, dan b + c > a.",
-                    "Jika jumlah dua sisi tepat sama dengan sisi ketiga, bangun akan menjadi garis lurus, bukan segitiga."
+                    "Jika jumlah dua sisi sama dengan atau lebih kecil dari sisi ketiga, ketiganya tidak membentuk segitiga."
                 ),
                 example = WorkedExample(
-                    question = "Apakah batang 4 cm, 6 cm, dan 9 cm dapat membentuk segitiga?",
+                    question = "Apakah batang 5 cm, 7 cm, dan 1 cm dapat membentuk segitiga?",
                     steps = listOf(
-                        "Urutkan panjang sisi: 4, 6, dan 9.",
-                        "Jumlahkan dua sisi terpendek: 4 + 6 = 10.",
-                        "Bandingkan 10 dengan sisi terpanjang 9.",
-                        "Karena 10 > 9, ketiga batang dapat membentuk segitiga."
+                        "Urutkan panjang sisi: 1, 5, dan 7.",
+                        "Jumlahkan dua sisi terpendek: 1 + 5 = 6.",
+                        "Bandingkan 6 dengan sisi terpanjang 7.",
+                        "Karena 6 tidak lebih besar dari 7, syarat segitiga tidak terpenuhi."
                     ),
-                    answer = "Ya, ketiga batang dapat membentuk segitiga."
+                    answer = "Tidak, ketiga batang tidak dapat membentuk segitiga."
                 )
             ),
             Subchapter(
                 title = "Segitiga Berdasarkan Panjang Sisi",
                 explanation = listOf(
+                    "Segitiga sama kaki mempunyai setidaknya dua sisi sama panjang dan dua sudut alas sama besar.",
                     "Segitiga sama sisi mempunyai tiga sisi sama panjang dan tiga sudut sama besar.",
-                    "Segitiga sama kaki mempunyai dua sisi sama panjang dan dua sudut alas sama besar.",
-                    "Segitiga sembarang mempunyai tiga sisi berbeda panjang.",
-                    "Tanda garis kecil pada gambar digunakan untuk menunjukkan sisi-sisi yang sama panjang."
+                    "Karena mempunyai lebih dari dua sisi sama panjang, segitiga sama sisi juga memenuhi ciri segitiga sama kaki.",
+                    "Segitiga sembarang mempunyai tiga sisi berbeda panjang."
                 ),
                 example = WorkedExample(
-                    question = "Sebuah segitiga mempunyai sisi 7 cm, 7 cm, dan 10 cm. Termasuk jenis apa?",
+                    question = "Mengapa segitiga sama sisi juga dapat disebut segitiga sama kaki?",
                     steps = listOf(
-                        "Bandingkan ketiga panjang sisi.",
-                        "Dua sisi bernilai 7 cm.",
-                        "Sisi ketiga bernilai 10 cm.",
-                        "Dua sisi sama panjang menunjukkan segitiga sama kaki."
+                        "Segitiga sama kaki mensyaratkan setidaknya dua sisi sama panjang.",
+                        "Segitiga sama sisi mempunyai tiga sisi sama panjang.",
+                        "Tiga sisi sama panjang tentu mencakup adanya dua sisi sama panjang.",
+                        "Jadi semua ciri segitiga sama kaki dimiliki oleh segitiga sama sisi."
                     ),
-                    answer = "Segitiga tersebut merupakan segitiga sama kaki."
+                    answer = "Karena segitiga sama sisi mempunyai setidaknya dua sisi sama panjang."
                 )
             ),
             Subchapter(
@@ -107,79 +108,79 @@ object CuratedChapterSeven {
                 )
             ),
             Subchapter(
-                title = "Persegi dan Persegi Panjang",
+                title = "Trapesium dan Jajargenjang",
                 explanation = listOf(
-                    "Persegi mempunyai empat sisi sama panjang, dua pasang sisi sejajar, dan empat sudut siku-siku.",
-                    "Persegi panjang mempunyai sisi berhadapan sama panjang, dua pasang sisi sejajar, dan empat sudut siku-siku.",
-                    "Diagonal keduanya sama panjang dan saling membagi dua.",
-                    "Persegi mempunyai empat sumbu simetri, sedangkan persegi panjang bukan persegi mempunyai dua."
+                    "Dalam buku ini, trapesium adalah segi empat yang mempunyai setidaknya satu pasang sisi sejajar.",
+                    "Jajargenjang mempunyai dua pasang sisi berhadapan sejajar dan sama panjang, sehingga memenuhi pengertian trapesium tersebut.",
+                    "Jajargenjang bukan trapesium sama kaki karena tidak memiliki satu sumbu simetri dan sudut pada alasnya tidak sama besar.",
+                    "Sudut berhadapan pada jajargenjang sama besar, sedangkan sudut yang berdekatan berjumlah 180°."
                 ),
                 example = WorkedExample(
-                    question = "Mengapa persegi juga dapat disebut persegi panjang?",
+                    question = "Bolehkah jajargenjang disebut trapesium menurut pengertian yang dipakai buku?",
                     steps = listOf(
-                        "Periksa jumlah sudut persegi: semuanya 90°.",
+                        "Trapesium memiliki setidaknya satu pasang sisi sejajar.",
+                        "Jajargenjang memiliki dua pasang sisi sejajar.",
+                        "Dua pasang berarti syarat setidaknya satu pasang terpenuhi.",
+                        "Periksa trapesium sama kaki secara terpisah karena memerlukan satu sumbu simetri."
+                    ),
+                    answer = "Ya. Jajargenjang termasuk trapesium, tetapi bukan trapesium sama kaki."
+                )
+            ),
+            Subchapter(
+                title = "Persegi Panjang dan Jajargenjang",
+                explanation = listOf(
+                    "Jajargenjang mempunyai sisi berhadapan sejajar dan sama panjang serta sudut berhadapan sama besar.",
+                    "Persegi panjang mempunyai semua ciri jajargenjang.",
+                    "Ciri tambahan persegi panjang adalah salah satu sudutnya siku-siku; akibatnya semua sudutnya siku-siku.",
+                    "Karena itu, persegi panjang adalah jajargenjang khusus."
+                ),
+                example = WorkedExample(
+                    question = "Mengapa persegi panjang dapat digolongkan sebagai jajargenjang?",
+                    steps = listOf(
                         "Periksa sisi berhadapan: sejajar dan sama panjang.",
-                        "Ciri tersebut memenuhi definisi persegi panjang.",
-                        "Persegi memiliki sifat tambahan berupa empat sisi sama panjang."
+                        "Periksa sudut berhadapan: sama besar.",
+                        "Semua ciri jajargenjang terpenuhi.",
+                        "Sudut siku-siku merupakan ciri tambahan."
                     ),
-                    answer = "Karena persegi memenuhi seluruh ciri persegi panjang."
+                    answer = "Persegi panjang adalah jajargenjang yang salah satu sudutnya siku-siku."
                 )
             ),
             Subchapter(
-                title = "Jajargenjang dan Trapesium",
+                title = "Belah Ketupat, Layang-Layang, dan Jajargenjang",
                 explanation = listOf(
-                    "Jajargenjang mempunyai dua pasang sisi berhadapan sejajar dan sama panjang.",
-                    "Sudut berhadapan pada jajargenjang sama besar, sedangkan sudut yang berdekatan berjumlah 180°.",
-                    "Trapesium mempunyai paling sedikit satu pasang sisi sejajar.",
-                    "Trapesium sama kaki mempunyai dua sisi tidak sejajar sama panjang serta pasangan sudut alas yang sama besar."
+                    "Belah ketupat mempunyai empat sisi sama panjang dan sisi berhadapan sejajar, sehingga termasuk jajargenjang.",
+                    "Belah ketupat juga mempunyai dua pasang sisi berurutan sama panjang dan diagonal sebagai sumbu simetri, sehingga termasuk layang-layang.",
+                    "Diagonal belah ketupat saling tegak lurus, saling membagi dua, dan keduanya merupakan sumbu simetri.",
+                    "Pada layang-layang umum, hanya satu diagonal yang menjadi sumbu simetri."
                 ),
                 example = WorkedExample(
-                    question = "Apa perbedaan utama jajargenjang dan trapesium biasa?",
+                    question = "Mengapa belah ketupat dapat digolongkan sebagai jajargenjang dan layang-layang?",
                     steps = listOf(
-                        "Hitung pasangan sisi sejajar pada jajargenjang.",
-                        "Jajargenjang mempunyai dua pasang sisi sejajar.",
-                        "Periksa trapesium biasa.",
-                        "Trapesium dikenali dengan satu pasangan sisi sejajar."
+                        "Sisi berhadapan belah ketupat sejajar, sehingga ciri jajargenjang terpenuhi.",
+                        "Belah ketupat mempunyai dua pasang sisi berurutan sama panjang.",
+                        "Diagonalnya berpotongan tegak lurus dan menjadi sumbu simetri.",
+                        "Ciri-ciri tersebut juga memenuhi pengertian layang-layang."
                     ),
-                    answer = "Jajargenjang mempunyai dua pasang sisi sejajar, sedangkan trapesium biasa satu pasang."
+                    answer = "Belah ketupat termasuk jajargenjang sekaligus layang-layang."
                 )
             ),
             Subchapter(
-                title = "Belah Ketupat dan Layang-Layang",
+                title = "Persegi, Persegi Panjang, dan Belah Ketupat",
                 explanation = listOf(
-                    "Belah ketupat mempunyai empat sisi sama panjang dan dua pasang sisi berhadapan sejajar.",
-                    "Diagonal belah ketupat saling tegak lurus dan saling membagi dua.",
-                    "Layang-layang mempunyai dua pasang sisi berdekatan sama panjang.",
-                    "Diagonal layang-layang saling tegak lurus, tetapi hanya satu diagonal yang membagi diagonal lainnya."
+                    "Persegi mempunyai semua ciri persegi panjang: sisi berhadapan sejajar, empat sudut siku-siku, dan diagonal sama panjang.",
+                    "Persegi juga mempunyai semua ciri belah ketupat: empat sisi sama panjang dan diagonal saling tegak lurus.",
+                    "Persegi adalah persegi panjang yang sisi-sisi berurutannya sama panjang.",
+                    "Persegi adalah belah ketupat yang salah satu sudutnya siku-siku."
                 ),
                 example = WorkedExample(
-                    question = "Apa persamaan belah ketupat dan layang-layang?",
+                    question = "Apakah persegi dapat disebut persegi panjang dan belah ketupat?",
                     steps = listOf(
-                        "Periksa hubungan diagonal kedua bangun.",
-                        "Kedua bangun mempunyai diagonal yang saling tegak lurus.",
-                        "Periksa sisi sama panjangnya.",
-                        "Keduanya mempunyai dua pasang sisi sama panjang, tetapi susunannya berbeda."
+                        "Periksa empat sudutnya: semuanya siku-siku.",
+                        "Periksa keempat sisinya: semuanya sama panjang.",
+                        "Ciri persegi panjang dan belah ketupat sama-sama terpenuhi.",
+                        "Satu bangun boleh berada dalam lebih dari satu kelompok."
                     ),
-                    answer = "Keduanya mempunyai pasangan sisi sama panjang dan diagonal yang saling tegak lurus."
-                )
-            ),
-            Subchapter(
-                title = "Membandingkan, Mengelompokkan, dan Menemukan Hierarki",
-                explanation = listOf(
-                    "Tabel ciri membantu membandingkan jumlah sisi sama panjang, sisi sejajar, sudut, diagonal, dan simetri.",
-                    "Persegi termasuk persegi panjang karena mempunyai empat sudut siku-siku dan sisi berhadapan sejajar.",
-                    "Persegi juga termasuk belah ketupat karena keempat sisinya sama panjang.",
-                    "Kebalikannya tidak selalu benar: persegi panjang belum tentu persegi dan belah ketupat belum tentu persegi."
-                ),
-                example = WorkedExample(
-                    question = "Apakah setiap belah ketupat merupakan persegi?",
-                    steps = listOf(
-                        "Periksa ciri belah ketupat: empat sisi sama panjang.",
-                        "Periksa syarat tambahan persegi: empat sudut siku-siku.",
-                        "Belah ketupat tidak selalu mempunyai sudut 90°.",
-                        "Karena syarat persegi belum tentu terpenuhi, jawabannya tidak."
-                    ),
-                    answer = "Tidak. Hanya belah ketupat dengan empat sudut siku-siku yang merupakan persegi."
+                    answer = "Ya, persegi merupakan persegi panjang sekaligus belah ketupat khusus."
                 )
             )
         ),
