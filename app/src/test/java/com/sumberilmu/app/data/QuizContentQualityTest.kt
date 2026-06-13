@@ -1,5 +1,6 @@
 package com.sumberilmu.app.data
 
+import java.io.File
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -89,6 +90,16 @@ class QuizContentQualityTest {
                 }
             }
         }
+
+        val report = buildString {
+            appendLine()
+            appendLine("===== QUIZ CONTENT QUALITY AUDIT =====")
+            appendLine("Total soal: ${chapters.sumOf { it.quiz.size }}")
+            appendLine("Total masalah: ${issues.size}")
+            appendLine(issues.joinToString("\n"))
+            appendLine("===== END QUIZ CONTENT QUALITY AUDIT =====")
+        }
+        File("lint-debug.log").appendText(report)
 
         assertTrue(
             "Ditemukan ${issues.size} masalah kualitas quiz:\n${issues.joinToString("\n")}",
