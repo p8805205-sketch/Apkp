@@ -5,5 +5,6 @@ object ChapterFourQuiz {
         ChapterFourQuizCore.questions +
         ChapterFourQuizShapes.questions +
         ChapterFourQuizApplications.questions +
-        ChapterFourQuizMastery.questions
+        ChapterFourQuizMastery.questions +
+        ChapterFourQuizReview.questions
 }
