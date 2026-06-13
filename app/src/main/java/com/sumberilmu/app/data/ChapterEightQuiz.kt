@@ -1,3 +1,5 @@
 package com.sumberilmu.app.data
 
-object ChapterEightQuiz
+object ChapterEightQuiz {
+    val questions: List<Question> = ChapterEightQuizBasics.questions + ChapterEightQuizPictograms.questions + ChapterEightQuizBars.questions + ChapterEightQuizApplications.questions
+}
