@@ -176,8 +176,8 @@ fun SumberIlmuApp(viewModel: AppViewModel) {
 
             AppScreen.CHAPTER -> {
                 val chapter = state.selectedChapter ?: return@Scaffold
-                if (chapter.number == 6) {
-                    AngleEnhancedChapterScreen(
+                when (chapter.number) {
+                    6 -> AngleEnhancedChapterScreen(
                         chapter = chapter,
                         chapterProgress = state.progress[chapter.id],
                         passScore = catalog.passScore,
@@ -185,8 +185,15 @@ fun SumberIlmuApp(viewModel: AppViewModel) {
                         onMarkCompleted = { viewModel.markMaterialCompleted(chapter.id) },
                         onStartQuiz = { viewModel.startQuiz(chapter.id) }
                     )
-                } else {
-                    ChapterScreen(
+                    7 -> ShapeEnhancedChapterScreen(
+                        chapter = chapter,
+                        chapterProgress = state.progress[chapter.id],
+                        passScore = catalog.passScore,
+                        contentPadding = paddingValues,
+                        onMarkCompleted = { viewModel.markMaterialCompleted(chapter.id) },
+                        onStartQuiz = { viewModel.startQuiz(chapter.id) }
+                    )
+                    else -> ChapterScreen(
                         chapter = chapter,
                         chapterProgress = state.progress[chapter.id],
                         passScore = catalog.passScore,

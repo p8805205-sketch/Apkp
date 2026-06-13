@@ -4,7 +4,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "app/src/main/java/com/sumberilmu/app/data"
-NAMES = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six"}
+NAMES = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven"}
 
 
 def fail(message: str) -> None:
@@ -58,6 +58,7 @@ def main() -> None:
         4: ("CuratedChapterFour.kt", "sourcePageEnd = 130"),
         5: ("ChapterFiveLessonsFoundation.kt", "sourcePageEnd = 162"),
         6: ("CuratedChapterSix.kt", "sourcePageEnd = 190"),
+        7: ("CuratedChapterSeven.kt", "sourcePageEnd = 234"),
     }
     for number, (filename, end_marker) in chapter_files.items():
         markers(DATA / filename, [f'id = "bab-{number}"', end_marker, f"quiz = Chapter{NAMES[number]}Quiz.questions"])
@@ -70,6 +71,7 @@ def main() -> None:
     markers(repository, [
         "CuratedChapterFive.chapter.id -> CuratedChapterFive.chapter",
         "CuratedChapterSix.chapter.id -> CuratedChapterSix.chapter",
+        "CuratedChapterSeven.chapter.id -> CuratedChapterSeven.chapter",
         "rumus 4 × sisi hanya berlaku jika keempat sisi sama panjang",
         "auditedChapterFour()",
     ])
@@ -89,6 +91,17 @@ def main() -> None:
         if value not in bab6:
             fail(f"Bab 6 verification marker missing: {value}")
 
+    bab7 = "\n".join(p.read_text(encoding="utf-8") for p in DATA.glob("ChapterSevenQuiz*.kt"))
+    for value in [
+        '"Jumlah dua sisi terpendek lebih besar dari sisi terpanjang"',
+        '"180°"',
+        '"Saling tegak lurus dan saling membagi dua"',
+        '"Ya, karena mempunyai empat sudut siku-siku dan sisi berhadapan sejajar"',
+        '"Empat sudut siku-siku dan dua pasang sisi sejajar"',
+    ]:
+        if value not in bab7:
+            fail(f"Bab 7 verification marker missing: {value}")
+
     chapter_six = (DATA / "CuratedChapterSix.kt").read_text(encoding="utf-8")
     for value in [
         'title = "Mengenal Jenis-Jenis Sudut"',
@@ -98,6 +111,15 @@ def main() -> None:
         if value not in chapter_six:
             fail(f"Bab 6 lesson marker missing: {value}")
 
+    chapter_seven = (DATA / "CuratedChapterSeven.kt").read_text(encoding="utf-8")
+    for value in [
+        'title = "Syarat Terbentuknya Segitiga"',
+        'title = "Belah Ketupat dan Layang-Layang"',
+        'title = "Membandingkan, Mengelompokkan, dan Menemukan Hierarki"',
+    ]:
+        if value not in chapter_seven:
+            fail(f"Bab 7 lesson marker missing: {value}")
+
     ui = ROOT / "app/src/main/java/com/sumberilmu/app/ui"
     markers(ui / "AngleLearningVisual.kt", [
         "fun AngleLearningShowcase",
@@ -106,12 +128,19 @@ def main() -> None:
         "Sudut refleks",
         "contentDescription = \"Visual sudut",
     ])
+    markers(ui / "ShapeComparisonVisual.kt", [
+        "fun ShapeComparisonShowcase",
+        "Canvas(",
+        "LearningShape.entries",
+        "Tabel perbandingan",
+        "contentDescription = \"Diagram",
+    ])
     markers(ui / "SumberIlmuApp.kt", [
-        "if (chapter.number == 6)",
-        "AngleEnhancedChapterScreen(",
+        "6 -> AngleEnhancedChapterScreen(",
+        "7 -> ShapeEnhancedChapterScreen(",
     ])
 
-    print("Content valid: 9 chapters, curated Bab 1-6, 150 verified quiz records, pass score 75, angle visual enabled.")
+    print("Content valid: 9 chapters, curated Bab 1-7, 175 verified quiz records, pass score 75, angle and shape visuals enabled.")
 
 
 if __name__ == "__main__":
