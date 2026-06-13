@@ -69,53 +69,62 @@ fun SumberIlmuApp(viewModel: AppViewModel) {
     }
     val showBack = state.screen !in setOf(AppScreen.DASHBOARD, AppScreen.CATALOG)
     val showBottomBar = state.screen in setOf(AppScreen.DASHBOARD, AppScreen.CATALOG)
+    val showLearningPath = state.screen in setOf(AppScreen.CATALOG, AppScreen.CHAPTER)
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets.safeDrawing,
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        title,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                navigationIcon = {
-                    if (showBack) {
-                        IconButton(onClick = viewModel::navigateBack) {
-                            Icon(Icons.Rounded.ArrowBack, contentDescription = "Kembali")
-                        }
-                    } else {
-                        IconButton(onClick = viewModel::showDashboard) {
-                            Box(
-                                modifier = Modifier
-                                    .size(36.dp)
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .background(
-                                        Brush.linearGradient(
-                                            listOf(BrandIndigo, BrandViolet)
-                                        )
-                                    ),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    Icons.Rounded.School,
-                                    contentDescription = "Sumber Ilmu",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(21.dp)
-                                )
+            Column {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            title,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    navigationIcon = {
+                        if (showBack) {
+                            IconButton(onClick = viewModel::navigateBack) {
+                                Icon(Icons.Rounded.ArrowBack, contentDescription = "Kembali")
+                            }
+                        } else {
+                            IconButton(onClick = viewModel::showDashboard) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(36.dp)
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .background(
+                                            Brush.linearGradient(
+                                                listOf(BrandIndigo, BrandViolet)
+                                            )
+                                        ),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        Icons.Rounded.School,
+                                        contentDescription = "Sumber Ilmu",
+                                        tint = Color.White,
+                                        modifier = Modifier.size(21.dp)
+                                    )
+                                }
                             }
                         }
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onBackground
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        titleContentColor = MaterialTheme.colorScheme.onBackground,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onBackground
+                    )
                 )
-            )
+                if (showLearningPath) {
+                    LearningPathStrip(
+                        catalog = catalog,
+                        selectedChapterNumber = state.selectedChapter?.number
+                    )
+                }
+            }
         },
         bottomBar = {
             if (showBottomBar) {
@@ -158,7 +167,7 @@ fun SumberIlmuApp(viewModel: AppViewModel) {
                 onOpenChapter = viewModel::openChapter
             )
 
-            AppScreen.CATALOG -> CatalogScreen(
+            AppScreen.CATALOG -> ReferenceInspiredCatalogScreen(
                 catalog = catalog,
                 progress = state.progress,
                 contentPadding = paddingValues,
