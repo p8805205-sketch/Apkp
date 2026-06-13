@@ -10,10 +10,25 @@ class ContentRepository(@Suppress("UNUSED_PARAMETER") context: Context) {
                 CuratedChapterOne.chapter.id -> CuratedChapterOne.chapter
                 CuratedChapterTwo.chapter.id -> CuratedChapterTwo.chapter
                 CuratedChapterThree.chapter.id -> CuratedChapterThree.chapter
-                CuratedChapterFour.chapter.id -> CuratedChapterFour.chapter
+                CuratedChapterFour.chapter.id -> auditedChapterFour()
+                CuratedChapterFive.chapter.id -> CuratedChapterFive.chapter
                 else -> chapter
             }
         }
         return base.copy(chapters = chapters)
+    }
+
+    private fun auditedChapterFour(): Chapter {
+        val sourceNote = "Catatan penting: rumus 4 × sisi hanya berlaku jika keempat sisi sama panjang. Trapesium dan segi empat sembarang harus dihitung dengan menjumlahkan semua sisinya."
+        return CuratedChapterFour.chapter.copy(
+            summary = CuratedChapterFour.chapter.summary + sourceNote,
+            subchapters = CuratedChapterFour.chapter.subchapters.map { subchapter ->
+                if (subchapter.title == "Keliling Segi Empat Lainnya") {
+                    subchapter.copy(explanation = subchapter.explanation + sourceNote)
+                } else {
+                    subchapter
+                }
+            }
+        )
     }
 }
