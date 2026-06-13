@@ -4,7 +4,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "app/src/main/java/com/sumberilmu/app/data"
-NAMES = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven", 8: "Eight"}
+NAMES = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 9: "Nine"}
 
 
 def fail(message: str) -> None:
@@ -60,6 +60,7 @@ def main() -> None:
         6: ("CuratedChapterSix.kt", "sourcePageEnd = 190"),
         7: ("CuratedChapterSeven.kt", "sourcePageEnd = 234"),
         8: ("CuratedChapterEight.kt", "sourcePageEnd = 272"),
+        9: ("CuratedChapterNine.kt", "sourcePageEnd = 292"),
     }
     for number, (filename, end_marker) in chapter_files.items():
         markers(DATA / filename, [f'id = "bab-{number}"', end_marker, f"quiz = Chapter{NAMES[number]}Quiz.questions"])
@@ -74,6 +75,7 @@ def main() -> None:
         "CuratedChapterSix.chapter.id -> CuratedChapterSix.chapter",
         "CuratedChapterSeven.chapter.id -> CuratedChapterSeven.chapter",
         "CuratedChapterEight.chapter.id -> CuratedChapterEight.chapter",
+        "CuratedChapterNine.chapter.id -> CuratedChapterNine.chapter",
         "rumus 4 × sisi hanya berlaku jika keempat sisi sama panjang",
         "auditedChapterFour()",
     ])
@@ -136,6 +138,55 @@ def main() -> None:
         if value not in chapter_eight:
             fail(f"Bab 8 lesson marker missing: {value}")
 
+    bab9 = "\n".join(p.read_text(encoding="utf-8") for p in DATA.glob("ChapterNineQuiz*.kt"))
+    for value in [
+        '"963.000"',
+        '"Ratus ribuan"',
+        '"445.000 < 545.000"',
+        '"676.785, 786.897, 789.867, 789.876"',
+        '"327.100"',
+        '"505.401"',
+        '"857.259"',
+        '"Rp623.000"',
+        '"Rp493.000"',
+        '"Rp234.600"',
+    ]:
+        if value not in bab9:
+            fail(f"Bab 9 verification marker missing: {value}")
+
+    markers(DATA / "ChapterNineSourceAudit.kt", [
+        "val trueFalseAnswers = listOf(true, false, true, false, false)",
+        '"lima ratus lima puluh ribu tiga ratus tiga" to 550_303',
+        '"kekurangan uang seragam" to 7_000',
+        '"harga buku Nisa" to 234_600',
+        '"dana terbanyak" to 354_500',
+        '"uang Komang dalam angka" to 567_000',
+    ])
+
+    for filename, required in {
+        "ChapterNineLessonsReading.kt": [
+            'title = "Mengenal Bilangan Cacah Sampai 1.000.000"',
+            'title = "Membaca dan Menulis Bilangan"',
+            'title = "Nilai Tempat dan Nilai Angka"',
+        ],
+        "ChapterNineLessonsOrdering.kt": [
+            'title = "Membandingkan Bilangan"',
+            'title = "Mengurutkan Bilangan"',
+        ],
+        "ChapterNineLessonsComposition.kt": [
+            'title = "Komposisi Bilangan"',
+            'title = "Dekomposisi Bilangan"',
+            'title = "Komposisi Pecahan Uang"',
+        ],
+    }.items():
+        markers(DATA / filename, required)
+
+    markers(DATA / "IndonesianNumberFormatter.kt", [
+        "value in 0..1_000_000",
+        'value < 2_000 -> "seribu',
+        'else -> "satu juta"',
+    ])
+
     ui = ROOT / "app/src/main/java/com/sumberilmu/app/ui"
     markers(ui / "AngleLearningVisual.kt", [
         "fun AngleLearningShowcase", "Canvas(", "selectedDegree", "Sudut refleks",
@@ -152,15 +203,25 @@ def main() -> None:
         "Canvas(",
         "Laboratorium Data",
     ])
+    markers(ui / "PlaceValueLearningVisual.kt", [
+        "fun PlaceValueLearningShowcase",
+        "Laboratorium Nilai Tempat",
+        "formatIndonesianNumber(number)",
+        "changeDigit(",
+        "decompose(",
+        "Bandingkan",
+        "Urutan harga sepatu",
+    ])
     markers(ui / "SumberIlmuApp.kt", [
         "6 -> AngleEnhancedChapterScreen(",
         "7 -> ShapeEnhancedChapterScreen(",
         "8 -> DataEnhancedChapterScreen(",
+        "9 -> PlaceValueEnhancedChapterScreen(",
     ])
 
     markers(ROOT / "docs/academic-structure.md", ["# Struktur Akademik Sumber Ilmu"])
 
-    print("Content valid: 9 chapters, curated Bab 1-8, 200 verified quiz records, Bab 7 source audit, and three interactive laboratories enabled.")
+    print("Content valid: all 9 chapters curated, 225 verified quiz records, source audits for Bab 7 and 9, and four interactive laboratories enabled.")
 
 
 if __name__ == "__main__":

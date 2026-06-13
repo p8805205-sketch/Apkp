@@ -201,6 +201,14 @@ fun SumberIlmuApp(viewModel: AppViewModel) {
                         onMarkCompleted = { viewModel.markMaterialCompleted(chapter.id) },
                         onStartQuiz = { viewModel.startQuiz(chapter.id) }
                     )
+                    9 -> PlaceValueEnhancedChapterScreen(
+                        chapter = chapter,
+                        chapterProgress = state.progress[chapter.id],
+                        passScore = catalog.passScore,
+                        contentPadding = paddingValues,
+                        onMarkCompleted = { viewModel.markMaterialCompleted(chapter.id) },
+                        onStartQuiz = { viewModel.startQuiz(chapter.id) }
+                    )
                     else -> ChapterScreen(
                         chapter = chapter,
                         chapterProgress = state.progress[chapter.id],
