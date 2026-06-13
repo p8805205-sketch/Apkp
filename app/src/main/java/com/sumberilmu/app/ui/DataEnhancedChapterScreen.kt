@@ -1,13 +1,7 @@
 package com.sumberilmu.app.ui
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.sumberilmu.app.data.Chapter
 import com.sumberilmu.app.data.ChapterProgress
 
@@ -20,24 +14,19 @@ fun DataEnhancedChapterScreen(
     onMarkCompleted: () -> Unit,
     onStartQuiz: () -> Unit
 ) {
-    val accent = chapterAccent(chapter.number)
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(contentPadding)
-    ) {
-        Box(modifier = Modifier.padding(horizontal = 18.dp, vertical = 10.dp)) {
+    CollapsibleLabChapterScreen(
+        chapter = chapter,
+        chapterProgress = chapterProgress,
+        passScore = passScore,
+        contentPadding = contentPadding,
+        labTitle = "Laboratorium Data",
+        collapsedSubtitle = "Ketuk untuk membuka tabel dan diagram interaktif",
+        expandedSubtitle = "Ketuk untuk menutup dan kembali ke materi",
+        labIcon = "▥",
+        onMarkCompleted = onMarkCompleted,
+        onStartQuiz = onStartQuiz,
+        labContent = { accent ->
             DataLearningShowcase(accent = accent)
         }
-        Box(modifier = Modifier.weight(1f)) {
-            ChapterScreen(
-                chapter = chapter,
-                chapterProgress = chapterProgress,
-                passScore = passScore,
-                contentPadding = PaddingValues(0.dp),
-                onMarkCompleted = onMarkCompleted,
-                onStartQuiz = onStartQuiz
-            )
-        }
-    }
+    )
 }
