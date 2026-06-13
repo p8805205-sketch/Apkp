@@ -2,6 +2,7 @@ package com.sumberilmu.app.data
 
 import java.io.File
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -16,7 +17,7 @@ class QuizContentQualityTest {
         CuratedChapterSeven.chapter,
         CuratedChapterEight.chapter,
         CuratedChapterNine.chapter
-    )
+    ).map(QuizContentFormatter::formatChapter)
 
     @Test
     fun allQuestionsAreStructurallyAndSemanticallyComplete() {
@@ -50,8 +51,8 @@ class QuizContentQualityTest {
                 if (prompt.length < 20) {
                     issues += "$label: prompt terlalu pendek (${prompt.length} karakter): '$prompt'"
                 }
-                if (prompt.endsWith("...")) {
-                    issues += "$label: prompt berupa fragmen isian berakhiran elipsis: '$prompt'"
+                if ("..." in prompt || "…" in prompt) {
+                    issues += "$label: prompt masih mengandung elipsis yang ambigu: '$prompt'"
                 }
                 if (prompt.endsWith(":") || prompt.endsWith(",")) {
                     issues += "$label: prompt berakhir menggantung: '$prompt'"
@@ -112,6 +113,37 @@ class QuizContentQualityTest {
         assertTrue(
             "Ditemukan ${issues.size} masalah kualitas quiz:\n${issues.joinToString("\n")}",
             issues.isEmpty()
+        )
+    }
+
+    @Test
+    fun fragmentedPromptBecomesAnExplicitCompletionTask() {
+        val result = QuizContentFormatter.completePrompt("57.500 + 22.000 = ...")
+
+        assertTrue(result.startsWith("Pilih jawaban yang paling tepat"))
+        assertTrue("57.500 + 22.000 = _____." in result)
+        assertFalse("..." in result)
+    }
+
+    @Test
+    fun multipleBlankMarkersAreConvertedConsistently() {
+        val result = QuizContentFormatter.completePrompt(
+            "Pada pecahan 3/5, angka 3 disebut ... dan angka 5 disebut ..."
+        )
+
+        assertEquals(2, Regex("_____").findAll(result).count())
+        assertFalse("..." in result)
+    }
+
+    @Test
+    fun completePromptIsPreservedAndPunctuated() {
+        assertEquals(
+            "Manakah bilangan yang paling besar?",
+            QuizContentFormatter.completePrompt("Manakah bilangan yang paling besar?")
+        )
+        assertEquals(
+            "Pilih jawaban yang benar.",
+            QuizContentFormatter.completePrompt("Pilih jawaban yang benar")
         )
     }
 
