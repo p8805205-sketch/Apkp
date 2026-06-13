@@ -34,7 +34,7 @@ def validate_modular(number: int, name: str) -> None:
     ids += [int(x) for x in re.findall(rf"CuratedQuestionFactory\.create\({number},\s*(\d+),", text)]
     if sorted(ids) != list(range(1, 26)):
         fail(f"Bab {number} modular IDs invalid: {sorted(ids)}")
-    if text.count("listOf(") != 25:
+    if len(re.findall(r'listOf\("', text)) != 25:
         fail(f"Bab {number} must have 25 option lists")
 
 
