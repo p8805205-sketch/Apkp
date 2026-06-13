@@ -102,9 +102,21 @@ class QuizContentQualityTest {
         val workspace = System.getenv("GITHUB_WORKSPACE") ?: System.getProperty("user.dir")
         File(workspace, "lint-debug.log").appendText(report)
 
+        val lintHtml = File(workspace, "app/build/reports/lint-results-debug.html")
+        if (lintHtml.exists()) {
+            lintHtml.appendText(
+                "\n<!-- QUIZ_AUDIT_START -->\n<pre>${escapeHtml(report)}</pre>\n<!-- QUIZ_AUDIT_END -->\n"
+            )
+        }
+
         assertTrue(
             "Ditemukan ${issues.size} masalah kualitas quiz:\n${issues.joinToString("\n")}",
             issues.isEmpty()
         )
     }
+
+    private fun escapeHtml(value: String): String = value
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
 }
